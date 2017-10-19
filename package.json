@@ -1,0 +1,42 @@
+{
+  "name": "farmfilter",
+  "description": "Yet another Bloom filter implementation, this one with farmhash",
+  "version": "1.0.0",
+  "author": "C J Silverio <ceejceej@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ceejbot/farmfilter/issues"
+  },
+  "dependencies": {
+    "farmhash": "~2.0.4"
+  },
+  "devDependencies": {
+    "coveralls": "~2.13.1",
+    "eslint-config-ceejbot": "~1.1.0",
+    "mocha": "~3.5.3",
+    "must": "~0.13.4",
+    "nyc": "~11.2.1",
+    "xo": "~0.18.2"
+  },
+  "homepage": "https://github.com/ceejbot/farmfilter#readme",
+  "keywords": [
+    "bloom",
+    "bloom filter",
+    "farmhash"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceejbot/farmfilter.git"
+  },
+  "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test": "mocha -R spec",
+    "test:cov": "nyc mocha -R spec",
+    "test:style": "xo",
+    "test:travis": "npm run test:cov && npm run test:style"
+  },
+  "xo": {
+    "extends": "eslint-config-ceejbot"
+  }
+}
