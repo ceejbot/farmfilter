@@ -2,7 +2,7 @@ Yet another Bloom filter implementation for node.js. Everybody has to write one,
 
 To install: `npm install farmfilter`
 
-[![on npm](https://img.shields.io/npm/v/farmfilter.svg?style=flat)](https://www.npmjs.com/package/farmfilter) [![Build Status](http://img.shields.io/travis/ceejbot/xx-bloom/master.svg?style=flat)](https://travis-ci.org/ceejbot/farmfilter) [![Coverage Status](https://img.shields.io/coveralls/ceejbot/xx-bloom.svg?style=flat)](https://coveralls.io/github/ceejbot/farmfilter?branch=master)
+[![on npm](https://img.shields.io/npm/v/farmfilter.svg?style=flat)](https://www.npmjs.com/package/farmfilter) [![Build Status](http://img.shields.io/travis/ceejbot/xx-bloom/master.svg?style=flat)](https://travis-ci.org/ceejbot/farmfilter) [![Coverage Status](https://coveralls.io/repos/github/ceejbot/farmfilter/badge.svg?branch=master)](https://coveralls.io/github/ceejbot/farmfilter?branch=master)
 
 ## Usage
 
