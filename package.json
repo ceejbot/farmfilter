@@ -1,7 +1,7 @@
 {
   "name": "farmfilter",
   "description": "Yet another Bloom filter implementation, this one with farmhash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "C J Silverio <ceejceej@gmail.com>",
   "bugs": {
     "url": "https://github.com/ceejbot/farmfilter/issues"
