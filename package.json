@@ -10,11 +10,11 @@
     "farmhash": "~2.0.4"
   },
   "devDependencies": {
-    "coveralls": "~2.13.1",
+    "coveralls": "~3.0.0",
     "eslint-config-ceejbot": "~1.1.0",
-    "mocha": "~3.5.3",
+    "mocha": "~4.0.1",
     "must": "~0.13.4",
-    "nyc": "~11.2.1",
+    "nyc": "~11.4.1",
     "xo": "~0.18.2"
   },
   "homepage": "https://github.com/ceejbot/farmfilter#readme",
