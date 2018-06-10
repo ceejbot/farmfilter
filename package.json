@@ -7,6 +7,7 @@
     "url": "https://github.com/ceejbot/farmfilter/issues"
   },
   "dependencies": {
+    "esm": "~3.0.48",
     "farmhash": "~2.1.0"
   },
   "devDependencies": {
@@ -25,6 +26,7 @@
   ],
   "license": "ISC",
   "main": "index.js",
+  "module": "farmfilter.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ceejbot/farmfilter.git"
