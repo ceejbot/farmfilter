@@ -35,14 +35,14 @@ class FarmFilter
 	static optimize(itemcount, errorRate)
 	{
 		errorRate = errorRate || 0.005;
-		var bits = Math.round(-1 * itemcount * Math.log(errorRate) / LN2_SQUARED);
-		var hashes = Math.round((bits / itemcount) * Math.LN2);
+		const bits = Math.round(-1 * itemcount * Math.log(errorRate) / LN2_SQUARED);
+		const hashes = Math.round((bits / itemcount) * Math.LN2);
 		return { bits, hashes };
 	}
 
 	static createOptimal(itemcount, errorRate)
 	{
-		var opts = FarmFilter.optimize(itemcount, errorRate);
+		const opts = FarmFilter.optimize(itemcount, errorRate);
 		return new FarmFilter(opts);
 	}
 
@@ -53,10 +53,10 @@ class FarmFilter
 
 	generateSeeds(count)
 	{
-		var buf, j;
+		let buf, j;
 		this.seeds = [];
 
-		for (var i = 0; i < count; i++)
+		for (let i = 0; i < count; i++)
 		{
 			buf = crypto.randomBytes(4);
 			this.seeds[i] = buf.readUInt32LE(0);
@@ -76,30 +76,30 @@ class FarmFilter
 
 	setbit(bit)
 	{
-		var pos = 0;
-		var shift = bit;
+		let pos = 0;
+		let shift = bit;
 		while (shift > 7)
 		{
 			pos++;
 			shift -= 8;
 		}
 
-		var bitfield = this.buffer[pos];
+		let bitfield = this.buffer[pos];
 		bitfield |= (0x1 << shift);
 		this.buffer[pos] = bitfield;
 	}
 
 	getbit(bit)
 	{
-		var pos = 0;
-		var shift = bit;
+		let pos = 0;
+		let shift = bit;
 		while (shift > 7)
 		{
 			pos++;
 			shift -= 8;
 		}
 
-		var bitfield = this.buffer[pos];
+		const bitfield = this.buffer[pos];
 		return (bitfield & (0x1 << shift)) !== 0;
 	}
 
@@ -108,10 +108,10 @@ class FarmFilter
 		if (typeof buf === 'string')
 			buf = Buffer.from(buf);
 
-		for (var i = 0; i < this.seeds.length; i++)
+		for (let i = 0; i < this.seeds.length; i++)
 		{
-			var hash = farmhash.hash64WithSeed(buf, this.seeds[i]);
-			var bit = hash % this.bits;
+			const hash = farmhash.hash64WithSeed(buf, this.seeds[i]);
+			const bit = hash % this.bits;
 			this.setbit(bit);
 		}
 	}
@@ -120,7 +120,7 @@ class FarmFilter
 	{
 		if (Array.isArray(item))
 		{
-			for (var i = 0; i < item.length; i++)
+			for (let i = 0; i < item.length; i++)
 				this._addOne(item[i]);
 		}
 		else
@@ -132,13 +132,12 @@ class FarmFilter
 		if (typeof item === 'string')
 			item = Buffer.from(item);
 
-		for (var i = 0; i < this.seeds.length; i++)
+		for (let i = 0; i < this.seeds.length; i++)
 		{
-			var hash = farmhash.hash64WithSeed(item, this.seeds[i]);
-			var bit = hash % this.bits;
+			const hash = farmhash.hash64WithSeed(item, this.seeds[i]);
+			const bit = hash % this.bits;
 
-			var isSet = this.getbit(bit);
-			if (!isSet)
+			if (!this.getbit(bit))
 				return false;
 		}
 
@@ -156,12 +155,12 @@ class FarmFilter
 		// Note the fragility to change but also the brute-headed compactness.
 		const buf = Buffer.alloc(1 + 6 + 1 + this.seeds.length * 4 + this.buffer.length);
 
-		var ptr = 0;
+		let ptr = 0;
 		buf.writeUInt8(FarmFilter.VERSION, ptr++);
 		buf.writeUIntLE(this.bits, ptr, 6);
 		ptr += 6;
 		buf.writeUInt8(this.seeds.length, ptr++);
-		for (var i = 0; i < this.seeds.length; i++, ptr += 4)
+		for (let i = 0; i < this.seeds.length; i++, ptr += 4)
 		{
 			buf.writeUInt32LE(this.seeds[i], ptr);
 		}
@@ -172,7 +171,7 @@ class FarmFilter
 
 	fromBuffer(buf)
 	{
-		var ptr = 0;
+		let ptr = 0;
 
 		const version = buf.readUInt8(ptr++);
 		// SWITCH ON VERSION HERE if necessary
@@ -183,8 +182,8 @@ class FarmFilter
 		ptr += 6;
 
 		this.seeds = [];
-		var seedcount = buf.readUInt8(ptr++);
-		for (var i = 0; i < seedcount; i++, ptr += 4)
+		const seedcount = buf.readUInt8(ptr++);
+		for (let i = 0; i < seedcount; i++, ptr += 4)
 		{
 			this.seeds[i] = buf.readUInt32LE(ptr);
 		}

@@ -1,14 +1,14 @@
 /*global describe:true, it:true, before:true, after:true */
 
-var
+const
 	demand = require('must'),
 	Farmfilter = require('./index')
 	;
 
 function hasBitsSet(buffer)
 {
-	var isset = 0;
-	for (var i = 0; i < buffer.length; i++)
+	let isset = 0;
+	for (let i = 0; i < buffer.length; i++)
 		isset |= (buffer[i] !== 0);
 	return isset;
 }
@@ -17,7 +17,7 @@ describe('FarmFilter()', () =>
 {
 	it('constructs a filter of the requested size', () =>
 	{
-		var filter = new Farmfilter({ hashes: 4, bits: 32 });
+		const filter = new Farmfilter({ hashes: 4, bits: 32 });
 		filter.seeds.length.must.equal(4);
 		filter.bits.must.equal(32);
 		filter.bits.must.equal(32);
@@ -26,14 +26,14 @@ describe('FarmFilter()', () =>
 
 	it('zeroes out its storage buffer', () =>
 	{
-		var filter = new Farmfilter({ hashes: 3, bits: 64 });
-		for (var i = 0; i < filter.buffer.length; i++)
+		const filter = new Farmfilter({ hashes: 3, bits: 64 });
+		for (let i = 0; i < filter.buffer.length; i++)
 			filter.buffer[i].must.equal(0);
 	});
 
 	it('uses passed-in seeds if provided', () =>
 	{
-		var filter = new Farmfilter({ bits: 256, seeds: [1, 2, 3, 4, 5]});
+		const filter = new Farmfilter({ bits: 256, seeds: [1, 2, 3, 4, 5]});
 		filter.seeds.length.must.equal(5);
 		filter.seeds[0].must.equal(1);
 		filter.seeds[4].must.equal(5);
@@ -43,7 +43,7 @@ describe('FarmFilter()', () =>
 	{
 		it('creates a filter with good defaults', () =>
 		{
-			var filter = Farmfilter.createOptimal(95);
+			let filter = Farmfilter.createOptimal(95);
 			filter.bits.must.equal(1048);
 			filter.seeds.length.must.equal(8);
 
@@ -58,9 +58,9 @@ describe('FarmFilter()', () =>
 
 		it('createOptimal() lets you specify an error rate', () =>
 		{
-			var filter = Farmfilter.createOptimal(20000);
+			let filter = Farmfilter.createOptimal(20000);
 			filter.bits.must.equal(220555);
-			var previous = filter.bits;
+			const previous = filter.bits;
 
 			filter = Farmfilter.createOptimal(20000, 0.2);
 			filter.bits.must.be.below(previous);
@@ -71,10 +71,10 @@ describe('FarmFilter()', () =>
 	{
 		it('sets the specified bit', () =>
 		{
-			var filter = new Farmfilter({ hashes: 3, bits: 16 });
+			const filter = new Farmfilter({ hashes: 3, bits: 16 });
 
 			filter.setbit(0);
-			var val = filter.getbit(0);
+			let val = filter.getbit(0);
 			val.must.equal(true);
 
 			filter.setbit(1);
@@ -91,9 +91,9 @@ describe('FarmFilter()', () =>
 
 		it('can set all bits', () =>
 		{
-			var i, value;
+			let i, value;
 
-			var filter = new Farmfilter({ hashes: 3, bits: 16 });
+			const filter = new Farmfilter({ hashes: 3, bits: 16 });
 			filter.buffer.length.must.equal(2);
 
 			for (i = 0; i < 16; i++)
@@ -108,8 +108,8 @@ describe('FarmFilter()', () =>
 
 		it('slides over into the next buffer slice when setting bits', () =>
 		{
-			var val;
-			var filter = new Farmfilter({ hashes: 3, bits: 64 });
+			let val;
+			const filter = new Farmfilter({ hashes: 3, bits: 64 });
 
 			filter.setbit(8);
 			val = filter.buffer[1];
@@ -129,7 +129,7 @@ describe('FarmFilter()', () =>
 	{
 		it('can store buffers', () =>
 		{
-			var filter = new Farmfilter({ hashes: 4, bits: 128 });
+			const filter = new Farmfilter({ hashes: 4, bits: 128 });
 
 			hasBitsSet(filter.buffer).must.equal(0);
 			filter.add(Buffer.from('cat'));
@@ -138,7 +138,7 @@ describe('FarmFilter()', () =>
 
 		it('can store strings', () =>
 		{
-			var filter = new Farmfilter({ hashes: 4, bits: 128 });
+			const filter = new Farmfilter({ hashes: 4, bits: 128 });
 			filter.add('cat');
 
 			hasBitsSet(filter.buffer).must.equal(1);
@@ -146,7 +146,7 @@ describe('FarmFilter()', () =>
 
 		it('can store arrays of buffers or strings', () =>
 		{
-			var filter = new Farmfilter({ hashes: 4, bits: 128 });
+			const filter = new Farmfilter({ hashes: 4, bits: 128 });
 			filter.add(['cat', 'dog', 'wallaby']);
 
 			hasBitsSet(filter.buffer).must.equal(1);
@@ -154,27 +154,27 @@ describe('FarmFilter()', () =>
 
 		it('can add a hundred random items', () =>
 		{
-			var alpha = '0123456789abcdefghijklmnopqrstuvwxyz';
+			const alpha = '0123456789abcdefghijklmnopqrstuvwxyz';
 			function randomWord(length)
 			{
 				length = length || Math.ceil(Math.random() * 20);
-				var result = '';
-				for (var i = 0; i < length; i++)
+				let result = '';
+				for (let i = 0; i < length; i++)
 					result += alpha[Math.floor(Math.random() * alpha.length)];
 
 				return result;
 			}
 
-			var filter = Farmfilter.createOptimal(100);
-			var words = [];
-			for (var i = 0; i < 100; i++)
+			const filter = Farmfilter.createOptimal(100);
+			const words = [];
+			for (let i = 0; i < 100; i++)
 			{
-				var w = randomWord();
+				const w = randomWord();
 				words.push(w);
 				filter.add(w);
 			}
 
-			for (i = 0; i < words.length; i++)
+			for (let i = 0; i < words.length; i++)
 				filter.has(words[i]).must.equal(true);
 		});
 
@@ -184,7 +184,7 @@ describe('FarmFilter()', () =>
 	{
 		it('returns true when called on a stored item', () =>
 		{
-			var filter = new Farmfilter({ hashes: 3, bits: 16 });
+			const filter = new Farmfilter({ hashes: 3, bits: 16 });
 			filter.add('cat');
 
 			hasBitsSet(filter.buffer).must.equal(1);
@@ -193,14 +193,14 @@ describe('FarmFilter()', () =>
 
 		it('returns false for items not in the set (mostly)', () =>
 		{
-			var filter = new Farmfilter({ hashes: 4, bits: 50 });
+			const filter = new Farmfilter({ hashes: 4, bits: 50 });
 			filter.add('cat');
 			filter.has('dog').must.be.false();
 		});
 
 		it('responds appropriately for arrays of added items', () =>
 		{
-			var filter = Farmfilter.createOptimal(20);
+			const filter = Farmfilter.createOptimal(20);
 			filter.add(['cat', 'dog', 'wallaby']);
 
 			filter.has('cat').must.equal(true);
@@ -214,7 +214,7 @@ describe('FarmFilter()', () =>
 	{
 		it('clears the filter', () =>
 		{
-			var filter = new Farmfilter({ hashes: 3, bits: 128 });
+			const filter = new Farmfilter({ hashes: 3, bits: 128 });
 			filter.add(['cat', 'dog', 'wallaby']);
 			hasBitsSet(filter.buffer).must.equal(1);
 
@@ -227,9 +227,9 @@ describe('FarmFilter()', () =>
 	{
 		it('toBuffer() returns a buffer', () =>
 		{
-			var filter = new Farmfilter({ hashes: 3, bits: 128 });
+			const filter = new Farmfilter({ hashes: 3, bits: 128 });
 			filter.add(['cat', 'dog', 'wallaby']);
-			var buf = filter.toBuffer();
+			const buf = filter.toBuffer();
 
 			buf.readUInt8(0).must.equal(Farmfilter.VERSION);
 			buf.readUIntLE(1, 6).must.equal(128);
@@ -238,7 +238,7 @@ describe('FarmFilter()', () =>
 			buf.readUInt32LE(12).must.equal(filter.seeds[1]);
 			buf.readUInt32LE(16).must.equal(filter.seeds[2]);
 
-			for (var i = 0; i < filter.buffer.length; i++)
+			for (let i = 0; i < filter.buffer.length; i++)
 			{
 				buf[i + 20].must.equal(filter.buffer[i]);
 			}
@@ -246,21 +246,21 @@ describe('FarmFilter()', () =>
 
 		it('fromBuffer() reconstructs the filter', () =>
 		{
-			var filter = new Farmfilter({ hashes: 3, bits: 128 });
+			const filter = new Farmfilter({ hashes: 3, bits: 128 });
 			filter.add(['cat', 'dog', 'wallaby']);
-			var buf = filter.toBuffer();
+			const buf = filter.toBuffer();
 
-			var copy = new Farmfilter(buf);
+			const copy = new Farmfilter(buf);
 
 			copy.bits.must.equal(filter.bits);
 			copy.seeds.length.must.equal(filter.seeds.length);
 
-			for (var i = 0; i < filter.seeds.length; i++)
+			for (let i = 0; i < filter.seeds.length; i++)
 			{
 				copy.seeds[i].must.equal(filter.seeds[i]);
 			}
 
-			var cmp = copy.buffer.compare(filter.buffer);
+			const cmp = copy.buffer.compare(filter.buffer);
 			cmp.must.equal(0);
 
 			const animals = ['cat', 'dog', 'wallaby', 'wombat', 'frog', 'quokka'];
