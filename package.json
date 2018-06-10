@@ -7,15 +7,15 @@
     "url": "https://github.com/ceejbot/farmfilter/issues"
   },
   "dependencies": {
-    "farmhash": "~2.0.4"
+    "farmhash": "~2.1.0"
   },
   "devDependencies": {
-    "coveralls": "~3.0.0",
-    "eslint-config-ceejbot": "~1.1.0",
-    "mocha": "~4.0.1",
+    "coveralls": "~3.0.1",
+    "eslint-config-ceejbot": "~1.1.2",
+    "mocha": "~5.2.0",
     "must": "~0.13.4",
-    "nyc": "~11.4.1",
-    "xo": "~0.18.2"
+    "nyc": "~12.0.2",
+    "xo": "~0.21.1"
   },
   "homepage": "https://github.com/ceejbot/farmfilter#readme",
   "keywords": [
