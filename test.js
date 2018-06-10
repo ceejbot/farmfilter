@@ -132,7 +132,7 @@ describe('FarmFilter()', () =>
 			var filter = new Farmfilter({ hashes: 4, bits: 128 });
 
 			hasBitsSet(filter.buffer).must.equal(0);
-			filter.add(new Buffer('cat'));
+			filter.add(Buffer.from('cat'));
 			hasBitsSet(filter.buffer).must.equal(1);
 		});
 
